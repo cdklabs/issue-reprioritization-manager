@@ -43,6 +43,7 @@ export class IssueGraduationManager {
       })
       .then(async (issues) => {
         for (const issue of issues) {
+          console.log(issue.labels);
           if (issue.labels.includes(this.skipLabel)) {
             continue;
           }

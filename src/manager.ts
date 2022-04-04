@@ -55,7 +55,6 @@ export class IssueGraduationManager {
         if (typeof l === 'string') {
           return l === skipLabel;
         } else {
-          console.log(l.name, skipLabel);
           return l.name === skipLabel;
         }
       });

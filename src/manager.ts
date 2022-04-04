@@ -39,6 +39,8 @@ export class IssueGraduationManager {
         labels: this.originalLabel,
       });
 
+      console.log('issues: ', issues.data.length);
+
       if (issues.data.length === 0) {
         break;
       }
@@ -50,11 +52,14 @@ export class IssueGraduationManager {
   }
 
   private async considerGraduateIssue(issueNumber: number) {
+    console.log('consider graduate issue');
     const issue = await this.client.rest.issues.get({
       issue_number: issueNumber,
       owner: this.owner,
       repo: this.repo,
     });
+
+    console.log('found issue ', issue.data.number);
 
     const count = issue.data.reactions?.total_count;
     if (count && count >= this.threshold) {

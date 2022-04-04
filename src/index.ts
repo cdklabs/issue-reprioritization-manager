@@ -10,6 +10,7 @@ async function run() {
   const omitMessage: boolean = core.getBooleanInput('omit-message');
 
   console.log(`finding issues labeled ${originalLabel} and checking if they should be ${newLabel}`);
+  console.log(originalLabel, newLabel, threshold, graduationMessage, omitMessage);
   const manager = new IssueGraduationManager(token, {
     originalLabel,
     newLabel,

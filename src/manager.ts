@@ -31,24 +31,37 @@ export class IssueGraduationManager {
   }
 
   public async doAllIssues() {
-    let page = 1;
-    while (true) {
-      const issues = await this.client.rest.issues.list({
-        page,
+    await this.client
+      .paginate(this.client.rest.issues.listForRepo, {
+        owner: this.owner,
+        repo: this.repo,
         state: 'open',
         labels: this.originalLabel,
+      })
+      .then(async (issues) => {
+        console.log('we got here');
+        for (const issue of issues) {
+          await this.considerGraduateIssue(issue.number);
+        }
       });
+    // let page = 1;
+    // while (true) {
+    //   const issues = await this.client.rest.issues.list({
+    //     page,
+    //     state: 'open',
+    //     labels: this.originalLabel,
+    //   });
 
-      console.log('issues: ', issues.data.length);
+    //   console.log('issues: ', issues.data.length);
 
-      if (issues.data.length === 0) {
-        break;
-      }
+    //   if (issues.data.length === 0) {
+    //     break;
+    //   }
 
-      for (const issue of issues.data) {
-        await this.considerGraduateIssue(issue.number);
-      }
-    }
+    //   for (const issue of issues.data) {
+    //     await this.considerGraduateIssue(issue.number);
+    //   }
+    // }
   }
 
   private async considerGraduateIssue(issueNumber: number) {

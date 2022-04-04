@@ -19,6 +19,7 @@ async function run() {
     omitMessage,
   });
 
+  console.log('we here');
   await manager.doAllIssues();
   core.setOutput('num-graduated', manager.numGraduated.toString());
   console.log(`graduated a total of ${manager.numGraduated} issues`);

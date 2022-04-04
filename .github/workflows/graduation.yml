@@ -1,0 +1,21 @@
+name: 'Graduate issues'
+on: 
+  issues:
+    types: 
+      - edited
+      - opened
+
+jobs:
+  graduation-manager:
+    permissions: 
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kaizen3031593/issue-graduation-manager@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          original-label: p2
+          new-label: p1
+          graduation-threshold: 1
+          

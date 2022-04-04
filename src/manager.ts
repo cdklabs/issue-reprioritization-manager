@@ -43,13 +43,24 @@ export class IssueGraduationManager {
       })
       .then(async (issues) => {
         for (const issue of issues) {
-          console.log(issue.labels);
-          if (issue.labels.includes(this.skipLabel)) {
+          if (hasSkipLabel(issue.labels, this.skipLabel)) {
             continue;
           }
           await this.considerGraduateIssue(issue.number);
         }
       });
+
+    function hasSkipLabel(labels: (string | { name?: string })[], skipLabel: string): boolean {
+      const filteredLabels = labels.filter((l) => {
+        if (typeof l === 'string') {
+          return l === skipLabel;
+        } else {
+          console.log(l.name, skipLabel);
+          return l.name === skipLabel;
+        }
+      });
+      return filteredLabels.length !== 0;
+    }
   }
 
   private async considerGraduateIssue(issueNumber: number) {

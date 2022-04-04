@@ -3,6 +3,7 @@ import * as github from '@actions/github';
 export interface IssueGraduationManagerProps {
   readonly originalLabel: string;
   readonly newLabel: string;
+  readonly skipLabel: string;
   readonly threshold: number;
   readonly graduationMessage: string;
   readonly omitMessage: boolean;
@@ -14,6 +15,7 @@ export class IssueGraduationManager {
   private readonly repo: string;
   private readonly originalLabel: string;
   private readonly newLabel: string;
+  private readonly skipLabel: string;
   private readonly threshold: number;
   private readonly graduationMessage: string;
   private readonly omitMessage: boolean;
@@ -25,6 +27,7 @@ export class IssueGraduationManager {
     this.repo = github.context.repo.repo;
     this.originalLabel = props.originalLabel;
     this.newLabel = props.newLabel;
+    this.skipLabel = props.skipLabel;
     this.threshold = props.threshold;
     this.graduationMessage = props.graduationMessage;
     this.omitMessage = props.omitMessage;
@@ -39,40 +42,21 @@ export class IssueGraduationManager {
         labels: this.originalLabel,
       })
       .then(async (issues) => {
-        console.log('we got here');
         for (const issue of issues) {
+          if (issue.labels.includes(this.skipLabel)) {
+            continue;
+          }
           await this.considerGraduateIssue(issue.number);
         }
       });
-    // let page = 1;
-    // while (true) {
-    //   const issues = await this.client.rest.issues.list({
-    //     page,
-    //     state: 'open',
-    //     labels: this.originalLabel,
-    //   });
-
-    //   console.log('issues: ', issues.data.length);
-
-    //   if (issues.data.length === 0) {
-    //     break;
-    //   }
-
-    //   for (const issue of issues.data) {
-    //     await this.considerGraduateIssue(issue.number);
-    //   }
-    // }
   }
 
   private async considerGraduateIssue(issueNumber: number) {
-    console.log('consider graduate issue');
     const issue = await this.client.rest.issues.get({
       issue_number: issueNumber,
       owner: this.owner,
       repo: this.repo,
     });
-
-    console.log('found issue ', issue.data.number);
 
     const count = issue.data.reactions?.total_count;
     if (count && count >= this.threshold) {

@@ -16,6 +16,9 @@ inputs:
   new-label:
     description: new label attached to all graduated issues
     required: true
+  skip-label:
+    description: skip graduation on issues with this label
+    required: false
   graduation-threshold:
     description: the threshold count necessary for graduation
     required: false
@@ -23,7 +26,7 @@ inputs:
   graduation-message:
     description: display this message on issues that graduate
     required: false
-    default: This issue has received a significant amount of attention so we are automatically upgrading its priority. A member of the community will see the re-prioritization and update the issue accordingly.
+    default: This issue has received a significant amount of attention so we are automatically upgrading its priority. A member of the community will see the re-prioritization and provide an update on the issue.
   omit-message:
     description: set this flag if you do not want automatic messages on graduated issues
     required: false

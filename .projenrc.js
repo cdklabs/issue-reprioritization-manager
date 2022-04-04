@@ -17,6 +17,10 @@ const project = new actions.GitHubActionTypeScriptProject({
         description: 'new label attached to all graduated issues',
         required: true,
       },
+      'skip-label': {
+        description: 'skip graduation on issues with this label',
+        required: false,
+      },
       'graduation-threshold': {
         description: 'the threshold count necessary for graduation',
         required: false,
@@ -29,7 +33,7 @@ const project = new actions.GitHubActionTypeScriptProject({
           'This issue has received a significant amount of attention',
           'so we are automatically upgrading its priority.',
           'A member of the community will see the re-prioritization',
-          'and update the issue accordingly.',
+          'and provide an update on the issue.',
         ].join(' '),
       },
       'omit-message': {

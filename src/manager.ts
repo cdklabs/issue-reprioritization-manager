@@ -66,6 +66,7 @@ export class IssueGraduationManager {
   }
 
   private async updateLinkedPrs(issueNumber: number) {
+    // TODO: remember to paginate
     const events = await this.client.rest.issues.listEventsForTimeline({
       owner: this.owner,
       repo: this.repo,
@@ -82,6 +83,23 @@ export class IssueGraduationManager {
       }
     }
     console.log(linkedPulls);
+
+    const events2 = await this.client.rest.issues.listEvents({
+      owner: this.owner,
+      repo: this.repo,
+      issue_number: issueNumber,
+    });
+
+    const linkedPulls2 = new Set<string>();
+    for (const event of events2.data) {
+      console.log(event.event);
+      if (event.event === 'connected' && event.url) {
+        linkedPulls2.add(event.url);
+      } else if (event.event === 'disconnected' && event.url) {
+        linkedPulls2.delete(event.url);
+      }
+    }
+    console.log(linkedPulls2);
   }
 
   private async considerGraduateIssue(issueNumber: number): Promise<boolean> {

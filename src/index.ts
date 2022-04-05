@@ -23,6 +23,8 @@ async function run() {
   await manager.doAllIssues();
   core.setOutput('num-graduated', manager.numGraduated.toString());
   console.log(`graduated a total of ${manager.numGraduated} issues`);
+  core.setOutput('linked-pulls', JSON.stringify(manager.linkedPulls));
+  console.log(`linked pull requests from graduated issues include: ${JSON.stringify(manager.linkedPulls)}.`);
 }
 
 run().catch(error => {

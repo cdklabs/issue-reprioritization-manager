@@ -20,6 +20,7 @@ export class IssueGraduationManager {
   private readonly graduationMessage: string;
   private readonly omitMessage: boolean;
   public numGraduated = 0;
+  public linkedPulls: string[] = [];
 
   constructor(token: string, props: IssueGraduationManagerProps) {
     this.client = github.getOctokit(token);
@@ -48,7 +49,7 @@ export class IssueGraduationManager {
           }
           const graduated = await this.considerGraduateIssue(issue.number);
           if (graduated) {
-            await this.updateLinkedPrs(issue.number);
+            await this.getLinkedPulls(issue.number);
           }
         }
       });
@@ -65,41 +66,20 @@ export class IssueGraduationManager {
     }
   }
 
-  private async updateLinkedPrs(issueNumber: number) {
-    // TODO: remember to paginate
-    const events = await this.client.rest.issues.listEventsForTimeline({
-      owner: this.owner,
-      repo: this.repo,
-      issue_number: issueNumber,
-    });
-
-    const linkedPulls = new Set<string>();
-    for (const event of events.data) {
-      console.log(event.event);
-      if (event.event === 'connected' && event.url) {
-        linkedPulls.add(event.url);
-      } else if (event.event === 'disconnected' && event.url) {
-        linkedPulls.delete(event.url);
-      }
-    }
-    console.log(linkedPulls);
-
-    const events2 = await this.client.rest.issues.listEvents({
-      owner: this.owner,
-      repo: this.repo,
-      issue_number: issueNumber,
-    });
-
-    const linkedPulls2 = new Set<string>();
-    for (const event of events2.data) {
-      console.log(event.event);
-      if (event.event === 'connected' && event.url) {
-        linkedPulls2.add(event.url);
-      } else if (event.event === 'disconnected' && event.url) {
-        linkedPulls2.delete(event.url);
-      }
-    }
-    console.log(linkedPulls2);
+  private async getLinkedPulls(issueNumber: number) {
+    await this.client
+      .paginate(this.client.rest.issues.listEventsForTimeline, {
+        owner: this.owner,
+        repo: this.repo,
+        issue_number: issueNumber,
+      })
+      .then(async (events) => {
+        for (const event of events) {
+          if (event.event === 'cross-referenced' && event.source?.issue?.pull_request) {
+            this.linkedPulls.push(event.source.issue.url);
+          }
+        }
+      });
   }
 
   private async considerGraduateIssue(issueNumber: number): Promise<boolean> {

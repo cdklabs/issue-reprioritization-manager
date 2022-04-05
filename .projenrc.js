@@ -46,6 +46,9 @@ const project = new actions.GitHubActionTypeScriptProject({
       'num-graduated': {
         description: 'returns the number of graduated issues',
       },
+      'linked-pulls': {
+        description: 'returns a list of linked pull requests from graduated issues',
+      },
     },
     branding: {
       color: 'purple',

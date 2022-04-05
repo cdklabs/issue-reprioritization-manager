@@ -13,9 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: kaizen3031593/issue-graduation-manager@main
+        id: grad-manager
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           original-label: p2
           new-label: p1
           skip-label: no-graduation
           graduation-threshold: 1
+      - name: test
+        env:
+          TEST: ${{ fromJSON(steps.grad-manager.outputs.linked-pulls) }}
+        run: |
+          echo ${{ env.TEST }}
+  # pr-triage-manager:
+  #   permissions:
+  #     pull-requests: write
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: kaizen3031593/pr-triage-manager@main
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         on-pulls: ${{ fromJSON(steps.graduation.outputs.linked-pulls) }}

@@ -20,7 +20,7 @@ export class IssueGraduationManager {
   private readonly graduationMessage: string;
   private readonly omitMessage: boolean;
   public numGraduated = 0;
-  public linkedPulls: string[] = [];
+  public linkedPulls: number[] = [];
 
   constructor(token: string, props: IssueGraduationManagerProps) {
     this.client = github.getOctokit(token);
@@ -76,7 +76,7 @@ export class IssueGraduationManager {
       .then(async (events) => {
         for (const event of events) {
           if (event.event === 'cross-referenced' && event.source?.issue?.pull_request) {
-            this.linkedPulls.push(event.source.issue.url);
+            this.linkedPulls.push(event.source.issue.number);
           }
         }
       });

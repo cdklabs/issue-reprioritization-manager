@@ -22,7 +22,7 @@ jobs:
           graduation-threshold: 1
       - name: test
         env:
-          TEST: ${{ fromJSON(steps.grad-manager.outputs.linked-pulls) }}
+          TEST: ${{ steps.grad-manager.outputs.linked-pulls }}
         run: |
           echo ${{ env.TEST }}
   # pr-triage-manager:

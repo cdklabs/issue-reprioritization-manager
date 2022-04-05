@@ -46,7 +46,10 @@ export class IssueGraduationManager {
           if (hasSkipLabel(issue.labels, this.skipLabel)) {
             continue;
           }
-          await this.considerGraduateIssue(issue.number);
+          const graduated = await this.considerGraduateIssue(issue.number);
+          if (graduated) {
+            await this.updateLinkedPrs(issue.number);
+          }
         }
       });
 
@@ -62,7 +65,26 @@ export class IssueGraduationManager {
     }
   }
 
-  private async considerGraduateIssue(issueNumber: number) {
+  private async updateLinkedPrs(issueNumber: number) {
+    const events = await this.client.rest.issues.listEventsForTimeline({
+      owner: this.owner,
+      repo: this.repo,
+      issue_number: issueNumber,
+    });
+
+    const linkedPulls = new Set<string>();
+    for (const event of events.data) {
+      console.log(event.event);
+      if (event.event === 'connected' && event.url) {
+        linkedPulls.add(event.url);
+      } else if (event.event === 'disconnected' && event.url) {
+        linkedPulls.delete(event.url);
+      }
+    }
+    console.log(linkedPulls);
+  }
+
+  private async considerGraduateIssue(issueNumber: number): Promise<boolean> {
     const issue = await this.client.rest.issues.get({
       issue_number: issueNumber,
       owner: this.owner,
@@ -72,7 +94,9 @@ export class IssueGraduationManager {
     const count = issue.data.reactions?.total_count;
     if (count && count >= this.threshold) {
       await this.graduate(issueNumber);
+      return true;
     }
+    return false;
   }
 
   private async graduate(issueNumber: number) {
@@ -93,6 +117,7 @@ export class IssueGraduationManager {
 
     await this.addMessage(issueNumber);
     this.numGraduated +=1;
+
   }
 
   private async addMessage(issueNumber: number) {

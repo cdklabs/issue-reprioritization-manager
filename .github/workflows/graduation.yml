@@ -23,4 +23,4 @@ jobs:
       - uses: kaizen3031593/pr-triage-manager@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          on-pulls: ${{ steps.graduation.outputs.linked-pulls }}
+          on-pulls: ${{ steps.grad-manager.outputs.linked-pulls }}

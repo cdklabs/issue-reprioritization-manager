@@ -1,5 +1,6 @@
 import * as github from '@actions/github';
 
+export const HIDDEN_COMMENT = '<!--REPRIORITIZED-->';
 export interface IssueReprioritizationManagerProps {
   readonly originalLabel: string;
   readonly newLabel: string;
@@ -44,6 +45,7 @@ export class IssueReprioritizationManager {
       })
       .then(async (issues) => {
         for (const issue of issues) {
+          // skip if skip label is present
           if (hasSkipLabel(issue.labels, this.skipLabel)) {
             continue;
           }
@@ -90,11 +92,31 @@ export class IssueReprioritizationManager {
     });
 
     const count = issue.data.reactions?.total_count;
-    if (count && count >= this.threshold) {
+    if (count && count >= this.threshold && !(await this.hasHiddenComment(issueNumber))) {
       await this.reprioritize(issueNumber);
       return true;
     }
     return false;
+  }
+
+  private async hasHiddenComment(issueNumber: number): Promise<boolean> {
+    return this.client
+      .paginate(this.client.rest.issues.listComments, {
+        owner: this.owner,
+        repo: this.repo,
+        issue_number: issueNumber,
+      })
+      .then(async (comments) => {
+        // work backwards because comment in question is likely at the end
+        for (let i = comments.length-1; i < 0; i--) {
+          const comment = comments[i];
+          if (comment.body?.includes(HIDDEN_COMMENT)) {
+            console.log('this issue was reprioritized already');
+            return true;
+          }
+        }
+        return false;
+      });
   }
 
   private async reprioritize(issueNumber: number) {

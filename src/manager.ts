@@ -112,7 +112,7 @@ export class IssueReprioritizationManager {
       })
       .then(async (comments) => {
         // work backwards because comment in question is likely at the end
-        for (let i = comments.length-1; i < 0; i--) {
+        for (let i = comments.length-1; i >= 0; i--) {
           const comment = comments[i];
           // if this is true then we've reprioritized this before
           if (comment.body?.includes(this.uniqueHiddenComment())) {

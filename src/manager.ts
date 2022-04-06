@@ -103,7 +103,7 @@ export class IssueReprioritizationManager {
   }
 
   private async hasHiddenComment(issueNumber: number): Promise<boolean> {
-    return this.client
+    const hasComment = await this.client
       .paginate(this.client.rest.issues.listComments, {
         owner: this.owner,
         repo: this.repo,
@@ -120,6 +120,8 @@ export class IssueReprioritizationManager {
         }
         return false;
       });
+    console.log(hasComment);
+    return hasComment;
   }
 
   private async reprioritize(issueNumber: number) {

@@ -94,7 +94,7 @@ export class IssueReprioritizationManager {
       // hasHiddenComment might be the most work this action is doing,
       // so we only want to call it if it is necessary to check for it.
       const hasComment = await this.hasHiddenComment(issueNumber);
-      if (hasComment) {
+      if (!hasComment) {
         await this.reprioritize(issueNumber);
         return true;
       }

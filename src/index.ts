@@ -10,7 +10,11 @@ async function run() {
   const reprioritizationMessage: string = core.getInput('reprioritization-message');
   const omitMessage: boolean = core.getBooleanInput('omit-message');
 
-  console.log(`finding issues labeled ${originalLabel} and checking if they should be ${newLabel}. Skipping issues labeled ${skipLabel}.`);
+  console.log(`finding issues labeled ${originalLabel} and checking if they should be ${newLabel}.`);
+  if (skipLabel !== '') {
+    console.log(`skipping issues labeled ${skipLabel}.`);
+  }
+
   const manager = new IssueReprioritizationManager(token, {
     originalLabel,
     newLabel,

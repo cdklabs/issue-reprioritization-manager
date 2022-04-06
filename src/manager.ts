@@ -121,7 +121,7 @@ export class IssueReprioritizationManager {
           }
         }
       });
-    console.log(hasComment);
+
     return hasComment;
   }
 

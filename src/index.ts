@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import { HIDDEN_COMMENT, IssueReprioritizationManager } from './manager';
+import { IssueReprioritizationManager } from './manager';
 
 async function run() {
   const token: string = core.getInput('github-token');
@@ -7,7 +7,7 @@ async function run() {
   const newLabel: string = core.getInput('new-label');
   const skipLabel: string = core.getInput('skip-label');
   const threshold: number = Number(core.getInput('reprioritization-threshold'));
-  const reprioritizationMessage: string = `${HIDDEN_COMMENT}\n${core.getInput('reprioritization-message')}`;
+  const reprioritizationMessage: string = core.getInput('reprioritization-message');
   const omitMessage: boolean = core.getBooleanInput('omit-message');
 
   console.log(`finding issues labeled ${originalLabel} and checking if they should be ${newLabel}. Skipping issues labeled ${skipLabel}.`);

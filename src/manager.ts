@@ -1,6 +1,4 @@
 import * as github from '@actions/github';
-
-export const HIDDEN_COMMENT = '<!--REPRIORITIZED-->';
 export interface IssueReprioritizationManagerProps {
   readonly originalLabel: string;
   readonly newLabel: string;
@@ -115,9 +113,8 @@ export class IssueReprioritizationManager {
         // work backwards because comment in question is likely at the end
         for (let i = comments.length-1; i < 0; i--) {
           const comment = comments[i];
-          console.log(comment.body, comment.body_text);
-          if (comment.body?.includes(HIDDEN_COMMENT)) {
-            console.log('this issue was reprioritized already');
+          // if this is true then we've reprioritized this before
+          if (comment.body?.includes(this.uniqueHiddenComment())) {
             return true;
           }
         }
@@ -151,11 +148,27 @@ export class IssueReprioritizationManager {
       return;
     }
 
+    // adds the labeling into the hidden metadata to differentiate between different usages
+    // of the same action (i.e. you can theoretically use this action from p2->p1 and p1->p0)
+    const message = `${this.uniqueHiddenComment()}\n${this.reprioritizationMessage}`;
+
     await this.client.rest.issues.createComment({
       owner: this.owner,
       repo: this.repo,
       issue_number: issueNumber,
-      body: this.reprioritizationMessage,
+      body: message,
     });
+  }
+
+
+  /**
+   * Returns a comment that is hidden in MarkDown that is "unique" to the kind of action.
+   * Here, we say that a unique action has a different set of original label and new label.
+   */
+  private uniqueHiddenComment(): string {
+    // we could add all the properties to this metadata to truly differentiate between different
+    // "kinds" of reprioritization, but I don't think it's necessary. The only use case we are
+    // guarding against is using the same action to reprioritize p2 to p1 and p1 to p0.
+    return `<!--${this.originalLabel} to ${this.newLabel}-->`;
   }
 }

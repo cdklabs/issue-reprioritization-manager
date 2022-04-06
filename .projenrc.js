@@ -1,7 +1,7 @@
 const { actions } = require('projen');
 const project = new actions.GitHubActionTypeScriptProject({
   defaultReleaseBranch: 'main',
-  name: 'issue-graduation-manager',
+  name: 'issue-reprioritization-manager',
   metadata: {
     author: 'Kaizen Conroy',
     inputs: {
@@ -10,7 +10,7 @@ const project = new actions.GitHubActionTypeScriptProject({
         required: true,
       },
       'original-label': {
-        description: 'label that is candidate for graduation',
+        description: 'label that is candidate for reprioritization',
         required: true,
       },
       'new-label': {
@@ -18,15 +18,15 @@ const project = new actions.GitHubActionTypeScriptProject({
         required: true,
       },
       'skip-label': {
-        description: 'skip graduation on issues with this label',
+        description: 'skip reprioritization on issues with this label',
         required: false,
       },
-      'graduation-threshold': {
-        description: 'the threshold count necessary for graduation',
+      'reprioritization-threshold': {
+        description: 'the threshold count necessary for reprioritization',
         required: false,
         default: '20',
       },
-      'graduation-message': {
+      'reprioritization-message': {
         description: 'display this message on issues that graduate',
         required: false,
         default: [

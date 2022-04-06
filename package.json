@@ -1,5 +1,5 @@
 {
-  "name": "issue-graduation-manager",
+  "name": "issue-reprioritization-manager",
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",

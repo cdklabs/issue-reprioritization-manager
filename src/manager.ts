@@ -1,15 +1,15 @@
 import * as github from '@actions/github';
 
-export interface IssueGraduationManagerProps {
+export interface IssueReprioritizationManagerProps {
   readonly originalLabel: string;
   readonly newLabel: string;
   readonly skipLabel: string;
   readonly threshold: number;
-  readonly graduationMessage: string;
+  readonly reprioritizationMessage: string;
   readonly omitMessage: boolean;
 }
 
-export class IssueGraduationManager {
+export class IssueReprioritizationManager {
   private readonly client: ReturnType<typeof github.getOctokit>;
   private readonly owner: string;
   private readonly repo: string;
@@ -17,12 +17,12 @@ export class IssueGraduationManager {
   private readonly newLabel: string;
   private readonly skipLabel: string;
   private readonly threshold: number;
-  private readonly graduationMessage: string;
+  private readonly reprioritizationMessage: string;
   private readonly omitMessage: boolean;
-  public numGraduated = 0;
+  public numReprioritized = 0;
   public linkedPulls: number[] = [];
 
-  constructor(token: string, props: IssueGraduationManagerProps) {
+  constructor(token: string, props: IssueReprioritizationManagerProps) {
     this.client = github.getOctokit(token);
     this.owner = github.context.repo.owner;
     this.repo = github.context.repo.repo;
@@ -30,7 +30,7 @@ export class IssueGraduationManager {
     this.newLabel = props.newLabel;
     this.skipLabel = props.skipLabel;
     this.threshold = props.threshold;
-    this.graduationMessage = props.graduationMessage;
+    this.reprioritizationMessage = props.reprioritizationMessage;
     this.omitMessage = props.omitMessage;
   }
 
@@ -47,8 +47,8 @@ export class IssueGraduationManager {
           if (hasSkipLabel(issue.labels, this.skipLabel)) {
             continue;
           }
-          const graduated = await this.considerGraduateIssue(issue.number);
-          if (graduated) {
+          const reprioritized = await this.considerIssuePriority(issue.number);
+          if (reprioritized) {
             await this.getLinkedPulls(issue.number);
           }
         }
@@ -82,7 +82,7 @@ export class IssueGraduationManager {
       });
   }
 
-  private async considerGraduateIssue(issueNumber: number): Promise<boolean> {
+  private async considerIssuePriority(issueNumber: number): Promise<boolean> {
     const issue = await this.client.rest.issues.get({
       issue_number: issueNumber,
       owner: this.owner,
@@ -91,13 +91,13 @@ export class IssueGraduationManager {
 
     const count = issue.data.reactions?.total_count;
     if (count && count >= this.threshold) {
-      await this.graduate(issueNumber);
+      await this.reprioritize(issueNumber);
       return true;
     }
     return false;
   }
 
-  private async graduate(issueNumber: number) {
+  private async reprioritize(issueNumber: number) {
     await Promise.all([
       this.client.rest.issues.addLabels({
         owner: this.owner,
@@ -114,7 +114,7 @@ export class IssueGraduationManager {
     ]);
 
     await this.addMessage(issueNumber);
-    this.numGraduated +=1;
+    this.numReprioritized +=1;
 
   }
 
@@ -127,7 +127,7 @@ export class IssueGraduationManager {
       owner: this.owner,
       repo: this.repo,
       issue_number: issueNumber,
-      body: this.graduationMessage,
+      body: this.reprioritizationMessage,
     });
   }
 }

@@ -92,9 +92,14 @@ export class IssueReprioritizationManager {
     });
 
     const count = issue.data.reactions?.total_count;
-    if (count && count >= this.threshold && !(await this.hasHiddenComment(issueNumber))) {
-      await this.reprioritize(issueNumber);
-      return true;
+    if (count && count >= this.threshold) {
+      // hasHiddenComment might be the most work this action is doing,
+      // so we only want to call it if it is necessary to check for it.
+      const hasComment = await this.hasHiddenComment(issueNumber);
+      if (hasComment) {
+        await this.reprioritize(issueNumber);
+        return true;
+      }
     }
     return false;
   }

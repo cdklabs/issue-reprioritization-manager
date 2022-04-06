@@ -110,6 +110,7 @@ export class IssueReprioritizationManager {
         // work backwards because comment in question is likely at the end
         for (let i = comments.length-1; i < 0; i--) {
           const comment = comments[i];
+          console.log(comment.body, comment.body_text);
           if (comment.body?.includes(HIDDEN_COMMENT)) {
             console.log('this issue was reprioritized already');
             return true;

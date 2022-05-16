@@ -3,8 +3,8 @@
 name: issue-reprioritization-manager
 description: A GitHub Action for issue-reprioritization-manager
 runs:
-  using: node16
   main: dist/index.js
+  using: node16
 author: Kaizen Conroy
 inputs:
   github-token:

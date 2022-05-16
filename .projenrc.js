@@ -1,9 +1,14 @@
-const { actions } = require('projen');
-const project = new actions.GitHubActionTypeScriptProject({
+const { GitHubActionTypeScriptProject, RunsUsing } = require('projen-github-action-typescript');
+const project = new GitHubActionTypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'issue-reprioritization-manager',
-  metadata: {
+  devDeps: ['projen-github-action-typescript'],
+  actionMetadata: {
     author: 'Kaizen Conroy',
+    runs: {
+      main: 'dist/index.js',
+      using: RunsUsing.NODE_16,
+    },
     inputs: {
       'github-token': {
         description: 'GitHub token',

@@ -18,7 +18,7 @@ export class IssueReprioritizationManager {
   private readonly threshold: number;
   private readonly reprioritizationMessage: string;
   private readonly omitMessage: boolean;
-  public numReprioritized = 0;
+  public reprioritizedIssues: number[] = [];
   public linkedPulls: number[] = [];
 
   constructor(token: string, props: IssueReprioritizationManagerProps) {
@@ -142,8 +142,7 @@ export class IssueReprioritizationManager {
     ]);
 
     await this.addMessage(issueNumber);
-    this.numReprioritized +=1;
-
+    this.reprioritizedIssues.push(issueNumber);
   }
 
   private async addMessage(issueNumber: number) {

@@ -190,7 +190,7 @@ export class IssueReprioritizationManager {
     await this.client.rest.projects.createCard({
       column_id: columnId,
       note: `#${issue}`,
-      content_id: `${issue}0`,
+      content_id: Number(`${columnId}${issue}`),
     });
     //const projectId = this.getProjectId(projectNumber);
   }

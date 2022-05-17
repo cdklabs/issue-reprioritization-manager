@@ -19,7 +19,7 @@ const project = new GitHubActionTypeScriptProject({
         required: true,
       },
       'new-label': {
-        description: 'new label attached to all graduated issues',
+        description: 'new label attached to all reprioritized issues',
         required: true,
       },
       'skip-label': {
@@ -32,7 +32,7 @@ const project = new GitHubActionTypeScriptProject({
         default: '20',
       },
       'reprioritization-message': {
-        description: 'display this message on issues that graduate',
+        description: 'display this message on issues that were reprioritized',
         required: false,
         default: [
           'This issue has received a significant amount of attention',
@@ -42,24 +42,24 @@ const project = new GitHubActionTypeScriptProject({
         ].join(' '),
       },
       'omit-message': {
-        description: 'set this flag if you do not want automatic messages on graduated issues',
+        description: 'set this flag if you do not want automatic messages on reprioritized issues',
         required: false,
         default: false,
       },
-      'project-url': {
-        description: 'the url of the project you want to add graduated issues to',
+      'project-column-url': {
+        description: 'the url of the column in the project you want to add reprioritized issues to',
         requried: false,
       },
     },
     outputs: {
-      'num-graduated': {
-        description: 'returns the number of graduated issues',
+      'num-reprioritized': {
+        description: 'returns the number of reprioritized issues',
       },
-      'graduated-issues': {
-        description: 'returns a list of graduated issues',
+      'reprioritized-issues': {
+        description: 'returns a list of reprioritized issues',
       },
       'linked-pulls': {
-        description: 'returns a list of linked pull requests from graduated issues',
+        description: 'returns a list of linked pull requests from reprioritized issues',
       },
     },
     branding: {

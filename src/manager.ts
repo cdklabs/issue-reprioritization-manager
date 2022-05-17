@@ -6,7 +6,7 @@ export interface IssueReprioritizationManagerProps {
   readonly threshold: number;
   readonly reprioritizationMessage: string;
   readonly omitMessage: boolean;
-  readonly projectUrl: string;
+  readonly columnUrl: string;
 }
 
 export class IssueReprioritizationManager {
@@ -33,7 +33,7 @@ export class IssueReprioritizationManager {
     this.threshold = props.threshold;
     this.reprioritizationMessage = props.reprioritizationMessage;
     this.omitMessage = props.omitMessage;
-    this.projectUrl = props.projectUrl;
+    this.projectUrl = props.columnUrl;
   }
 
   public async doAllIssues() {
@@ -59,12 +59,10 @@ export class IssueReprioritizationManager {
 
     const columnId = validateProjectUrl(this.projectUrl);
     if (columnId) {
-      console.log('adding to project column', columnId);
+      console.log(`adding ${this.reprioritizedIssues.length} issues to the project board`);
       for (const issue of this.reprioritizedIssues) {
         await this.addToProject(columnId, issue);
       }
-    } else {
-      console.log('not valid');
     }
 
     function hasSkipLabel(labels: (string | { name?: string })[], skipLabel: string): boolean {
@@ -204,19 +202,6 @@ export class IssueReprioritizationManager {
 
     return issue.data.id;
   }
-  // private async getProjectId(projectNumber: number): Promise<number> {
-  //   const projects = await this.client.rest.projects.listForRepo({
-  //     owner: this.owner,
-  //     repo: this.repo,
-  //   });
-  //   for (const project of projects.data) {
-  //     if (project.number === projectNumber) {
-  //       return project.id;
-  //     }
-  //   }
-
-  //   throw new Error(`The project number ${projectNumber} does not exist in this repo`);
-  // }
 }
 
 function validateProjectUrl(url: string): number | undefined {

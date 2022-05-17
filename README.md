@@ -23,7 +23,7 @@ jobs:
       issues: write
     runs-on: ubuntu-latest
     steps:
-      - uses: kaizen3031593/issue-reprioritization-manager@main
+      - uses: kaizencc/issue-reprioritization-manager@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           original-label: p2
@@ -55,7 +55,7 @@ jobs:
       issues: write
     runs-on: ubuntu-latest
     steps:
-      - uses: kaizen3031593/issue-reprioritization-manager@main
+      - uses: kaizencc/issue-reprioritization-manager@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           original-label: p2
@@ -81,7 +81,7 @@ jobs:
       issues: write
     runs-on: ubuntu-latest
     steps:
-      - uses: kaizen3031593/issue-reprioritization-manager@main
+      - uses: kaizencc/issue-reprioritization-manager@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           original-label: p2
@@ -108,7 +108,7 @@ jobs:
       issues: write
     runs-on: ubuntu-latest
     steps:
-      - uses: kaizen3031593/issue-reprioritization-manager@main
+      - uses: kaizencc/issue-reprioritization-manager@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           original-label: p2
@@ -132,16 +132,44 @@ jobs:
       issues: write
     runs-on: ubuntu-latest
     steps:
-      - uses: kaizen3031593/issue-reprioritization-manager@main
+      - uses: kaizencc/issue-reprioritization-manager@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           original-label: p2
           new-label: p1
           reprioritizationn-threshold: 10
-      - uses: kaizen3031593/issue-reprioritization-manager@main
+      - uses: kaizencc/issue-reprioritization-manager@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           original-label: p1
           new-label: p0
           reprioritizationn-threshold: 50
+```
+
+### Add Reprioritized Issues to a GitHub Project
+
+You can configure an additional workflow to add reprioritized issues to
+a project by providing the _column_ url of the project you want the issues
+to be added.
+
+The column url can be found by clicking the three dots next to the column
+and then selecting 'copy link'.
+
+```yaml
+on: 
+  schedule:
+    - cron: "0 0 * * 0"
+jobs:
+  issue-reprioritization-manager:
+    permissions:
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kaizencc/issue-reprioritization-manager@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          original-label: p2
+          new-label: p1
+          reprioritization-threshold: 10
+          project-url: https://github.com/kaizencc/issue-reprioritization-manager/projects/1#column-18720618
 ```

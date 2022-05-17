@@ -9,7 +9,7 @@ async function run() {
   const threshold: number = Number(core.getInput('reprioritization-threshold'));
   const reprioritizationMessage: string = core.getInput('reprioritization-message');
   const omitMessage: boolean = core.getBooleanInput('omit-message');
-  const projectUrl: string = core.getInput('project-url');
+  const columnUrl: string = core.getInput('project-column-url');
 
   console.log(`finding issues labeled ${originalLabel} and checking if they should be ${newLabel}.`);
   if (skipLabel !== '') {
@@ -23,13 +23,13 @@ async function run() {
     threshold,
     reprioritizationMessage: reprioritizationMessage,
     omitMessage,
-    projectUrl,
+    columnUrl: columnUrl,
   });
 
   await manager.doAllIssues();
   core.setOutput('num-reprioritized', manager.reprioritizedIssues.length.toString());
   console.log(`reprioritized a total of ${manager.reprioritizedIssues.length} issues`);
-  core.setOutput('graduated-issues', JSON.stringify(manager.reprioritizedIssues));
+  core.setOutput('reprioritized-issues', JSON.stringify(manager.reprioritizedIssues));
   console.log(`these issues were reprioritized: ${manager.reprioritizedIssues}`);
   core.setOutput('linked-pulls', JSON.stringify(manager.linkedPulls));
   console.log(`linked pull requests from reprioritized issues include: ${JSON.stringify(manager.linkedPulls)}.`);

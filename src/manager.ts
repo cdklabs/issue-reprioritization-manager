@@ -191,6 +191,7 @@ export class IssueReprioritizationManager {
       column_id: columnId,
       note: `#${issue}`,
       content_id: Number(`${columnId}${issue}`),
+      content_type: 'Issue',
     });
     //const projectId = this.getProjectId(projectNumber);
   }

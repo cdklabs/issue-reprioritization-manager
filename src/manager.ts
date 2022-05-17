@@ -57,7 +57,7 @@ export class IssueReprioritizationManager {
         }
       });
 
-    const columnId = validateProjectUrl(this.projectUrl);
+    const columnId = validateProjectColumnUrl(this.projectUrl);
     if (columnId) {
       console.log(`adding ${this.reprioritizedIssues.length} issues to the project board`);
       for (const issue of this.reprioritizedIssues) {
@@ -204,7 +204,7 @@ export class IssueReprioritizationManager {
   }
 }
 
-function validateProjectUrl(url: string): number | undefined {
+function validateProjectColumnUrl(url: string): number | undefined {
   if (url === '') { return undefined; }
 
   const acceptedUrls = /^(?:https:\/\/)?github\.com\/(?<owner>[^\/]+)\/(?<repo>[^\/]+)\/projects\/(?<projectNumber>\d+)#column-(?<columnId>[^\/]+)/;

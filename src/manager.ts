@@ -6,6 +6,7 @@ export interface IssueReprioritizationManagerProps {
   readonly threshold: number;
   readonly reprioritizationMessage: string;
   readonly omitMessage: boolean;
+  readonly projectUrl: string;
 }
 
 export class IssueReprioritizationManager {
@@ -18,6 +19,7 @@ export class IssueReprioritizationManager {
   private readonly threshold: number;
   private readonly reprioritizationMessage: string;
   private readonly omitMessage: boolean;
+  private readonly projectUrl: string;
   public reprioritizedIssues: number[] = [];
   public linkedPulls: number[] = [];
 
@@ -31,6 +33,7 @@ export class IssueReprioritizationManager {
     this.threshold = props.threshold;
     this.reprioritizationMessage = props.reprioritizationMessage;
     this.omitMessage = props.omitMessage;
+    this.projectUrl = props.projectUrl;
   }
 
   public async doAllIssues() {
@@ -53,6 +56,14 @@ export class IssueReprioritizationManager {
           }
         }
       });
+
+    const projectNumber = validateProjectUrl(this.projectUrl);
+    if (projectNumber) {
+      console.log('adding to project', projectNumber);
+      await this.addToProject(projectNumber);
+    } else {
+      console.log('not valid');
+    }
 
     function hasSkipLabel(labels: (string | { name?: string })[], skipLabel: string): boolean {
       const filteredLabels = labels.filter((l) => {
@@ -162,7 +173,6 @@ export class IssueReprioritizationManager {
     });
   }
 
-
   /**
    * Returns a comment that is hidden in MarkDown that is "unique" to the kind of action.
    * Here, we say that a unique action has a different set of original label and new label.
@@ -173,4 +183,23 @@ export class IssueReprioritizationManager {
     // guarding against is using the same action to reprioritize p2 to p1 and p1 to p0.
     return `<!--${this.originalLabel} to ${this.newLabel}-->`;
   }
+
+  private async addToProject(_projectNumber: number) {
+    const projects = await this.client.rest.projects.listForRepo({
+      owner: this.owner,
+      repo: this.repo,
+    });
+    console.log(projects);
+  }
+}
+
+function validateProjectUrl(url: string): number | undefined {
+  if (url === '') { return undefined; }
+
+  const acceptedUrls = /^(?:https:\/\/)?github\.com\/(?<owner>[^\/]+)\/(?<repo>[^\/]+)\/projects\/(?<number>\d+)/;
+  const matchedUrl = url.match(acceptedUrls);
+  if (!matchedUrl) {
+    throw new Error(`The project url must look like "https://github.com/owner/repo/projects/1" but got ${url}`);
+  }
+  return matchedUrl.groups?.number ? Number(matchedUrl.groups?.number) : undefined;
 }

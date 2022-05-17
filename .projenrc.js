@@ -46,6 +46,10 @@ const project = new GitHubActionTypeScriptProject({
         required: false,
         default: false,
       },
+      'project-url': {
+        description: 'the url of the project you want to add graduated issues to',
+        requried: false,
+      },
     },
     outputs: {
       'num-graduated': {

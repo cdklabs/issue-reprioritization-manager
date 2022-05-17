@@ -31,6 +31,9 @@ inputs:
     description: set this flag if you do not want automatic messages on graduated issues
     required: false
     default: false
+  project-url:
+    description: the url of the project you want to add graduated issues to
+    requried: false
 outputs:
   num-graduated:
     description: returns the number of graduated issues

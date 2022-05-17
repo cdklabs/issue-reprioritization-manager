@@ -27,6 +27,7 @@ async function run() {
   await manager.doAllIssues();
   core.setOutput('num-reprioritized', manager.reprioritizedIssues.length.toString());
   console.log(`reprioritized a total of ${manager.reprioritizedIssues.length} issues`);
+  core.setOutput('graduated-issues', JSON.stringify(manager.reprioritizedIssues));
   console.log(`these issues were reprioritized: ${manager.reprioritizedIssues}`);
   core.setOutput('linked-pulls', JSON.stringify(manager.linkedPulls));
   console.log(`linked pull requests from reprioritized issues include: ${JSON.stringify(manager.linkedPulls)}.`);

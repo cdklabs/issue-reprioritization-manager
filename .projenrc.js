@@ -51,6 +51,9 @@ const project = new GitHubActionTypeScriptProject({
       'num-graduated': {
         description: 'returns the number of graduated issues',
       },
+      'graduated-issues': {
+        description: 'returns a list of graduated issues',
+      },
       'linked-pulls': {
         description: 'returns a list of linked pull requests from graduated issues',
       },

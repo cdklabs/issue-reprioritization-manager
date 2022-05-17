@@ -155,6 +155,9 @@ to be added.
 The column url can be found by clicking the three dots next to the column
 and then selecting 'copy link'.
 
+To add cards to the project board, the github action must have the permission
+`repository-projects: write` to do so.
+
 ```yaml
 on: 
   schedule:
@@ -163,6 +166,7 @@ jobs:
   issue-reprioritization-manager:
     permissions:
       issues: write
+      repository-projects: write
     runs-on: ubuntu-latest
     steps:
       - uses: kaizencc/issue-reprioritization-manager@main

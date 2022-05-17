@@ -57,10 +57,12 @@ export class IssueReprioritizationManager {
         }
       });
 
-    const projectNumber = validateProjectUrl(this.projectUrl);
-    if (projectNumber) {
-      console.log('adding to project', projectNumber);
-      await this.addToProject(projectNumber);
+    const columnId = validateProjectUrl(this.projectUrl);
+    if (columnId) {
+      console.log('adding to project column', columnId);
+      for (const issue of this.reprioritizedIssues) {
+        await this.addToProject(columnId, issue);
+      }
     } else {
       console.log('not valid');
     }
@@ -184,22 +186,37 @@ export class IssueReprioritizationManager {
     return `<!--${this.originalLabel} to ${this.newLabel}-->`;
   }
 
-  private async addToProject(_projectNumber: number) {
-    const projects = await this.client.rest.projects.listForRepo({
-      owner: this.owner,
-      repo: this.repo,
+  private async addToProject(columnId: number, issue: number) {
+    await this.client.rest.projects.createCard({
+      column_id: columnId,
+      note: `#${issue}`,
+      content_id: `${issue}0`,
     });
-    console.log(projects);
+    //const projectId = this.getProjectId(projectNumber);
   }
+
+  // private async getProjectId(projectNumber: number): Promise<number> {
+  //   const projects = await this.client.rest.projects.listForRepo({
+  //     owner: this.owner,
+  //     repo: this.repo,
+  //   });
+  //   for (const project of projects.data) {
+  //     if (project.number === projectNumber) {
+  //       return project.id;
+  //     }
+  //   }
+
+  //   throw new Error(`The project number ${projectNumber} does not exist in this repo`);
+  // }
 }
 
 function validateProjectUrl(url: string): number | undefined {
   if (url === '') { return undefined; }
 
-  const acceptedUrls = /^(?:https:\/\/)?github\.com\/(?<owner>[^\/]+)\/(?<repo>[^\/]+)\/projects\/(?<number>\d+)/;
+  const acceptedUrls = /^(?:https:\/\/)?github\.com\/(?<owner>[^\/]+)\/(?<repo>[^\/]+)\/projects\/(?<projectNumber>\d+)#column-(?<columnId>[^\/]+)/;
   const matchedUrl = url.match(acceptedUrls);
   if (!matchedUrl) {
-    throw new Error(`The project url must look like "https://github.com/owner/repo/projects/1" but got ${url}`);
+    throw new Error(`The project url must look like "https://github.com/owner/repo/projects/1#column-00000000" but got ${url}`);
   }
-  return matchedUrl.groups?.number ? Number(matchedUrl.groups?.number) : undefined;
+  return matchedUrl.groups?.columnId ? Number(matchedUrl.groups?.columnId) : undefined;
 }

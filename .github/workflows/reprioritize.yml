@@ -19,7 +19,7 @@ jobs:
           original-label: p2
           new-label: p1
           reprioritization-threshold: 1
-          project-url: https://github.com/kaizencc/issue-reprioritization-manager/projects/1
+          project-url: https://github.com/kaizencc/issue-reprioritization-manager/projects/1#column-18720618
       - uses: kaizen3031593/pr-triage-manager@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

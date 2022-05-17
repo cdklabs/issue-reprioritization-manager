@@ -186,16 +186,24 @@ export class IssueReprioritizationManager {
     return `<!--${this.originalLabel} to ${this.newLabel}-->`;
   }
 
-  private async addToProject(columnId: number, issue: number) {
+  private async addToProject(columnId: number, issueNumber: number) {
+    const issueId = await this.getIssueId(issueNumber);
     await this.client.rest.projects.createCard({
       column_id: columnId,
-      note: `#${issue}`,
-      content_id: Number(`${columnId}${issue}`),
+      content_id: issueId,
       content_type: 'Issue',
     });
-    //const projectId = this.getProjectId(projectNumber);
   }
 
+  private async getIssueId(issueNumber: number): Promise<number> {
+    const issue = await this.client.rest.issues.get({
+      issue_number: issueNumber,
+      owner: this.owner,
+      repo: this.repo,
+    });
+
+    return issue.data.id;
+  }
   // private async getProjectId(projectNumber: number): Promise<number> {
   //   const projects = await this.client.rest.projects.listForRepo({
   //     owner: this.owner,

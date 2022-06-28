@@ -137,6 +137,7 @@ export class IssueReprioritizationManager {
   }
 
   private async reprioritize(issueNumber: number) {
+    console.log(`Upgrading issue #${issueNumber}`);
     await Promise.all([
       this.client.rest.issues.addLabels({
         owner: this.owner,
@@ -164,6 +165,7 @@ export class IssueReprioritizationManager {
     // adds the labeling into the hidden metadata to differentiate between different usages
     // of the same action (i.e. you can theoretically use this action from p2->p1 and p1->p0)
     const message = `${this.uniqueHiddenComment()}\n${this.reprioritizationMessage}`;
+    console.log(`Adding comment to #${issueNumber}`);
 
     await this.client.rest.issues.createComment({
       owner: this.owner,

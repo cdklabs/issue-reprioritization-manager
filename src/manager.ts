@@ -46,8 +46,8 @@ export class IssueReprioritizationManager {
       })
       .then(async (issues) => {
         for (const issue of issues) {
-          // skip if skip label is present
-          if (hasSkipLabel(issue.labels, this.skipLabel)) {
+          // skip if skip label is present or if it is a pull request
+          if (hasSkipLabel(issue.labels, this.skipLabel) || issue.pull_request) {
             continue;
           }
           const reprioritized = await this.considerIssuePriority(issue.number);

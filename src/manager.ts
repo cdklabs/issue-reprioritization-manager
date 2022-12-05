@@ -191,6 +191,7 @@ export class IssueReprioritizationManager {
   private async addToProject(projectUrl: string, projectScope: string, issueNumber: number) {
     const issueId = await this.getIssueId(issueNumber);
     const projectInfo = getProjectInfo(projectUrl);
+    console.log(issueId, projectInfo, projectScope);
     const projectId = await this.client.graphql(
       `
       query{
@@ -202,6 +203,7 @@ export class IssueReprioritizationManager {
       }  
       `,
     );
+    console.log('here', projectId);
     await this.client.graphql(
       `
       mutation {

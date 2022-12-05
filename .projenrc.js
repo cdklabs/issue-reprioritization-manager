@@ -50,6 +50,11 @@ const project = new GitHubActionTypeScriptProject({
         description: 'the url of the org-level project you want to add reprioritized issues to',
         requried: false,
       },
+      'project-scope': {
+        description: 'project scopes can be either user level or organization level',
+        required: false,
+        default: 'organization',
+      },
     },
     outputs: {
       'num-reprioritized': {

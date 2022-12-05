@@ -7,6 +7,7 @@ export interface IssueReprioritizationManagerProps {
   readonly reprioritizationMessage: string;
   readonly omitMessage: boolean;
   readonly projectUrl: string;
+  readonly projectScope: string;
 }
 
 export class IssueReprioritizationManager {
@@ -20,6 +21,7 @@ export class IssueReprioritizationManager {
   private readonly reprioritizationMessage: string;
   private readonly omitMessage: boolean;
   private readonly projectUrl: string;
+  private readonly projectScope: string;
   public reprioritizedIssues: number[] = [];
   public linkedPulls: number[] = [];
 
@@ -34,6 +36,7 @@ export class IssueReprioritizationManager {
     this.reprioritizationMessage = props.reprioritizationMessage;
     this.omitMessage = props.omitMessage;
     this.projectUrl = props.projectUrl;
+    this.projectScope = props.projectScope;
   }
 
   public async doAllIssues() {
@@ -57,9 +60,11 @@ export class IssueReprioritizationManager {
         }
       });
 
-    console.log(`adding ${this.reprioritizedIssues.length} issues to the project board`);
-    for (const issue of this.reprioritizedIssues) {
-      await this.addToProject(this.projectUrl, issue);
+    if (this.projectUrl != '') {
+      console.log(`adding ${this.reprioritizedIssues.length} issues to the project board`);
+      for (const issue of this.reprioritizedIssues) {
+        await this.addToProject(this.projectUrl, this.projectScope, issue);
+      }
     }
 
     function hasSkipLabel(labels: (string | { name?: string })[], skipLabel: string): boolean {
@@ -183,13 +188,13 @@ export class IssueReprioritizationManager {
     return `<!--${this.originalLabel} to ${this.newLabel}-->`;
   }
 
-  private async addToProject(projectUrl: string, issueNumber: number) {
+  private async addToProject(projectUrl: string, projectScope: string, issueNumber: number) {
     const issueId = await this.getIssueId(issueNumber);
     const projectInfo = getProjectInfo(projectUrl);
     const projectId = await this.client.graphql(
       `
       query{
-        organization(login: ${projectInfo.organization}){
+        ${projectScope}(login: ${projectInfo.organization}){
           projectV2(number: ${projectInfo.number}) {
             id
           }

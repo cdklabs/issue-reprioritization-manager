@@ -21,6 +21,7 @@ jobs:
           new-label: p1
           reprioritization-threshold: 1
           project-url: https://github.com/users/kaizencc/projects/1/views/1
+          project-scope: 'user'
       - uses: kaizencc/pr-triage-manager@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

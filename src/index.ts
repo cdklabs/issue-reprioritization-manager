@@ -10,6 +10,7 @@ async function run() {
   const reprioritizationMessage: string = core.getInput('reprioritization-message');
   const omitMessage: boolean = core.getBooleanInput('omit-message');
   const projectUrl: string = core.getInput('project-url');
+  const projectScope: string = core.getInput('project-scope');
 
   console.log(`finding issues labeled ${originalLabel} and checking if they should be ${newLabel}.`);
   if (skipLabel !== '') {
@@ -24,6 +25,7 @@ async function run() {
     reprioritizationMessage: reprioritizationMessage,
     omitMessage,
     projectUrl,
+    projectScope,
   });
 
   await manager.doAllIssues();

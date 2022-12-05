@@ -194,7 +194,7 @@ export class IssueReprioritizationManager {
     const projectId = await this.client.graphql(
       `
       query{
-        ${projectScope}(login: ${projectInfo.organization}){
+        ${projectScope}(login: "${projectInfo.organization}"){
           projectV2(number: ${projectInfo.number}) {
             id
           }
@@ -205,7 +205,7 @@ export class IssueReprioritizationManager {
     await this.client.graphql(
       `
       mutation {
-        addProjectV2ItemById(input: {projectId: ${projectId} contentId: ${issueId}}) {
+        addProjectV2ItemById(input: {projectId: "${projectId}" contentId: "${issueId}"}) {
           item {
             id
           }

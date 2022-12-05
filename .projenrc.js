@@ -46,8 +46,8 @@ const project = new GitHubActionTypeScriptProject({
         required: false,
         default: false,
       },
-      'project-column-url': {
-        description: 'the url of the column in the project you want to add reprioritized issues to',
+      'project-url': {
+        description: 'the url of the org-level project you want to add reprioritized issues to',
         requried: false,
       },
     },

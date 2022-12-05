@@ -6,7 +6,7 @@ export interface IssueReprioritizationManagerProps {
   readonly threshold: number;
   readonly reprioritizationMessage: string;
   readonly omitMessage: boolean;
-  readonly columnUrl: string;
+  readonly projectUrl: string;
 }
 
 export class IssueReprioritizationManager {
@@ -33,7 +33,7 @@ export class IssueReprioritizationManager {
     this.threshold = props.threshold;
     this.reprioritizationMessage = props.reprioritizationMessage;
     this.omitMessage = props.omitMessage;
-    this.projectUrl = props.columnUrl;
+    this.projectUrl = props.projectUrl;
   }
 
   public async doAllIssues() {
@@ -57,12 +57,9 @@ export class IssueReprioritizationManager {
         }
       });
 
-    const columnId = validateProjectColumnUrl(this.projectUrl);
-    if (columnId) {
-      console.log(`adding ${this.reprioritizedIssues.length} issues to the project board`);
-      for (const issue of this.reprioritizedIssues) {
-        await this.addToProject(columnId, issue);
-      }
+    console.log(`adding ${this.reprioritizedIssues.length} issues to the project board`);
+    for (const issue of this.reprioritizedIssues) {
+      await this.addToProject(this.projectUrl, issue);
     }
 
     function hasSkipLabel(labels: (string | { name?: string })[], skipLabel: string): boolean {
@@ -186,13 +183,31 @@ export class IssueReprioritizationManager {
     return `<!--${this.originalLabel} to ${this.newLabel}-->`;
   }
 
-  private async addToProject(columnId: number, issueNumber: number) {
+  private async addToProject(projectUrl: string, issueNumber: number) {
     const issueId = await this.getIssueId(issueNumber);
-    await this.client.rest.projects.createCard({
-      column_id: columnId,
-      content_id: issueId,
-      content_type: 'Issue',
-    });
+    const projectInfo = getProjectInfo(projectUrl);
+    const projectId = await this.client.graphql(
+      `
+      query{
+        organization(login: ${projectInfo.organization}){
+          projectV2(number: ${projectInfo.number}) {
+            id
+          }
+        }
+      }  
+      `,
+    );
+    await this.client.graphql(
+      `
+      mutation {
+        addProjectV2ItemById(input: {projectId: ${projectId} contentId: ${issueId}}) {
+          item {
+            id
+          }
+        }
+      }'
+      `,
+    );
   }
 
   private async getIssueId(issueNumber: number): Promise<number> {
@@ -206,13 +221,10 @@ export class IssueReprioritizationManager {
   }
 }
 
-function validateProjectColumnUrl(url: string): number | undefined {
-  if (url === '') { return undefined; }
-
-  const acceptedUrls = /^(?:https:\/\/)?github\.com\/(?<owner>[^\/]+)\/(?<repo>[^\/]+)\/projects\/(?<projectNumber>\d+)#column-(?<columnId>[^\/]+)/;
-  const matchedUrl = url.match(acceptedUrls);
-  if (!matchedUrl) {
-    throw new Error(`The project url must look like "https://github.com/owner/repo/projects/1#column-00000000" but got ${url}`);
-  }
-  return matchedUrl.groups?.columnId ? Number(matchedUrl.groups?.columnId) : undefined;
+function getProjectInfo(url: string) {
+  const components = url.split('/');
+  return {
+    organization: components[4],
+    number: components[6],
+  };
 }

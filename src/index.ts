@@ -9,7 +9,7 @@ async function run() {
   const threshold: number = Number(core.getInput('reprioritization-threshold'));
   const reprioritizationMessage: string = core.getInput('reprioritization-message');
   const omitMessage: boolean = core.getBooleanInput('omit-message');
-  const columnUrl: string = core.getInput('project-column-url');
+  const projectUrl: string = core.getInput('project-url');
 
   console.log(`finding issues labeled ${originalLabel} and checking if they should be ${newLabel}.`);
   if (skipLabel !== '') {
@@ -23,7 +23,7 @@ async function run() {
     threshold,
     reprioritizationMessage: reprioritizationMessage,
     omitMessage,
-    columnUrl: columnUrl,
+    projectUrl,
   });
 
   await manager.doAllIssues();

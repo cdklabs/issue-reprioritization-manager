@@ -1,6 +1,7 @@
 const { GitHubActionTypeScriptProject, RunsUsing } = require('projen-github-action-typescript');
 const project = new GitHubActionTypeScriptProject({
   defaultReleaseBranch: 'main',
+  release: false,
   name: 'issue-reprioritization-manager',
   devDeps: ['projen-github-action-typescript'],
   actionMetadata: {

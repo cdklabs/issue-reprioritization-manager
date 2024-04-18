@@ -4,6 +4,11 @@ const project = new GitHubActionTypeScriptProject({
   release: false,
   name: 'issue-reprioritization-manager',
   devDeps: ['projen-github-action-typescript'],
+  autoApproveUpgrades: true,
+  autoApproveOptions: {
+    allowedUsernames: ['cdklabs-automation'],
+    secret: 'GITHUB_TOKEN',
+  },
   actionMetadata: {
     author: 'Kaizen Conroy',
     runs: {

@@ -1,9 +1,11 @@
-const { GitHubActionTypeScriptProject, RunsUsing } = require('projen-github-action-typescript');
+import { GitHubActionTypeScriptProject, RunsUsing } from 'projen-github-action-typescript';
+
 const project = new GitHubActionTypeScriptProject({
   defaultReleaseBranch: 'main',
   release: false,
   name: 'issue-reprioritization-manager',
   devDeps: ['projen-github-action-typescript'],
+  projenrcTs: true,
   autoApproveUpgrades: true,
   autoApproveOptions: {
     allowedUsernames: ['cdklabs-automation'],
@@ -13,7 +15,7 @@ const project = new GitHubActionTypeScriptProject({
     author: 'Kaizen Conroy',
     runs: {
       main: 'dist/index.js',
-      using: RunsUsing.NODE_16,
+      using: RunsUsing.NODE_20,
     },
     inputs: {
       'github-token': {
@@ -50,11 +52,11 @@ const project = new GitHubActionTypeScriptProject({
       'omit-message': {
         description: 'set this flag if you do not want automatic messages on reprioritized issues',
         required: false,
-        default: false,
+        default: 'false',
       },
       'project-url': {
         description: 'the url of the org-level project you want to add reprioritized issues to',
-        requried: false,
+        required: false,
       },
       'project-scope': {
         description: 'project scopes can be either user level or organization level',

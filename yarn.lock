@@ -1592,9 +1592,9 @@ domexception@^2.0.1:
     webidl-conversions "^5.0.0"
 
 electron-to-chromium@^1.5.4:
-  version "1.5.11"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.11.tgz#258077f1077a1c72f2925cd5b326c470a7f5adef"
-  integrity sha512-R1CccCDYqndR25CaXFd6hp/u9RaaMcftMkphmvuepXr5b1vfLkRml6aWVeBhXJ7rbevHkKEMJtz8XqPf7ffmew==
+  version "1.5.12"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.12.tgz#ee31756eaa2e06f2aa606f170b7ad06dd402b4e4"
+  integrity sha512-tIhPkdlEoCL1Y+PToq3zRNehUaKp3wBX/sr7aclAWdIWjvqAe/Im/H0SiCM4c1Q8BLPHCdoJTol+ZblflydehA==
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -3439,10 +3439,10 @@ pretty-format@^27.0.0, pretty-format@^27.5.1:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-projen-github-action-typescript@^0.0.420:
-  version "0.0.420"
-  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.420.tgz#1fe9cececf9d4a7707b209167bf012543a4eb4ee"
-  integrity sha512-GZj1EDZpOKcZ9VDCSUK9QuThMxFzxxw+6Y9CkLXOxpHgvsQWwl87YyhwR3OXu3r71rGbRS1f7l1F7ubNAcHKfw==
+projen-github-action-typescript@^0.0.421:
+  version "0.0.421"
+  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.421.tgz#ef020b838b7ca4436ad06e6e9fae9f5cd2348730"
+  integrity sha512-WmiqjzdTo2ZZ1816c8YSrps0BiTFdUfHSITT5prRJ9M7VE7gyjbwX9SvcCwmMuHMN1JnVBHNrLLleVSdiFXc8w==
 
 projen@^0.85.2:
   version "0.85.2"

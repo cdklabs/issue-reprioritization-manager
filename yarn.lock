@@ -3445,10 +3445,10 @@ pretty-format@^27.0.0, pretty-format@^27.5.1:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-projen-github-action-typescript@^0.0.434:
-  version "0.0.434"
-  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.434.tgz#e173763a36ffa7c351cee4aa84194741fcf60d42"
-  integrity sha512-ECguE2hiRcUobcoCBUUokyewhbDgscJz3eQ2BFGzouSqZP1SwDq1m0aXbOzpQ7YhyjhW/f+6VH378BQ64Py8+w==
+projen-github-action-typescript@^0.0.435:
+  version "0.0.435"
+  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.435.tgz#5a62d4439d7b8dd267d3056fab904f6a077352f4"
+  integrity sha512-KlLhVexFG5DKC3ok9kHTvY60a4i9pDyGTRbmHpAzkfq8FefA21LBJtViBgNXwDGureQvnwM+MVeLHuz2wRHDuA==
 
 projen@^0.86.7:
   version "0.86.7"
@@ -4259,9 +4259,9 @@ yallist@^3.0.2:
   integrity sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==
 
 yaml@^2.2.2:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.5.0.tgz#c6165a721cf8000e91c36490a41d7be25176cf5d"
-  integrity sha512-2wWLbGbYDiSqqIKoPjar3MPgB94ErzCtrNE1FdqGuaO0pi2JGjmE8aW8TDZwzU7vuxcGRdL/4gPQwQ7hD5AMSw==
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.5.1.tgz#c9772aacf62cb7494a95b0c4f1fb065b563db130"
+  integrity sha512-bLQOjaX/ADgQ20isPJRvF0iRUHIxVhYvr53Of7wGcWlO2jvtUlH5m87DsmulFVxRpNLOnI4tB6p/oh8D7kpn9Q==
 
 yargs-parser@20.x, yargs-parser@^20.2.2:
   version "20.2.9"

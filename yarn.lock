@@ -1330,9 +1330,9 @@ ci-info@^3.2.0:
   integrity sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==
 
 cjs-module-lexer@^1.0.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.4.0.tgz#677de7ed7efff67cc40c9bf1897fea79d41b5215"
-  integrity sha512-N1NGmowPlGBLsOZLPvm48StN04V4YvQRL0i6b7ctrVY3epjP/ct7hFLOItz6pDIvRjwpfPxi52a2UWV2ziir8g==
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.4.1.tgz#707413784dbb3a72aa11c2f2b042a0bef4004170"
+  integrity sha512-cuSVIHi9/9E/+821Qjdvngor+xpnlwnuwIyZOaLmHBVdXL+gP+I6QQB9VkO7RI77YIcTV+S1W9AreJ5eN63JBA==
 
 cliui@^7.0.2:
   version "7.0.4"
@@ -3440,10 +3440,10 @@ pretty-format@^27.0.0, pretty-format@^27.5.1:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-projen-github-action-typescript@^0.0.438:
-  version "0.0.438"
-  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.438.tgz#adc85f3d11663f7b42498ff2797d1b408645de12"
-  integrity sha512-tqNp118PZAbkJKzGviaumeFySA5/6HzWgviyt/00lcvne2GhJ59CMjaI9/f1C8FLT+xyk5xrevzu0UwUgbZk8w==
+projen-github-action-typescript@^0.0.439:
+  version "0.0.439"
+  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.439.tgz#add99d9f372c69e9ec06419535c6d36bfbe6a7af"
+  integrity sha512-uQwGDYf4dyokvC46MeupCAOsOq4q4exYBo6NTmRoLrqTCNQd4a5ost2VzTmXHxc8w7CQdql4+7RoNzeGxiUOHw==
 
 projen@^0.87.0:
   version "0.87.0"

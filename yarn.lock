@@ -3440,10 +3440,10 @@ pretty-format@^27.0.0, pretty-format@^27.5.1:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-projen-github-action-typescript@^0.0.452:
-  version "0.0.452"
-  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.452.tgz#eb14e9a19dbdec8c4368ed26adb4fe7a98634be7"
-  integrity sha512-XiMc4C0bBNjdSKCJPCuviXffpU7q2IO9dUDWx4LcSaod9j5MliKWTRwVHiWV4eYdTV1hGD5PPXTZ3g89rHfV4A==
+projen-github-action-typescript@^0.0.453:
+  version "0.0.453"
+  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.453.tgz#5b972eabd1f4043e7b5238a6565c3b68cd21026a"
+  integrity sha512-LnNtW7io4R0wfxNyiAfxoZJAeh3j1NHolNwXsHqGOkvPhGW4VaZEHyKkr5z81L3qeFVWaygpKPNuRw79GAzKxw==
 
 projen@^0.87.4:
   version "0.87.4"

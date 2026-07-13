@@ -79,4 +79,8 @@ const project = new GitHubActionTypeScriptProject({
     },
   },
 });
+// typescript-eslint v8 enables the "project service" for typed linting, which
+// rejects files not covered by a tsconfig. .projenrc.js is such a loose file,
+// so register it as an allowed default-project file to keep eslint passing.
+project.eslint.allowDefaultProjectFiles('.projenrc.js');
 project.synth();

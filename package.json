@@ -23,14 +23,14 @@
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
-    "@vercel/ncc": "^0.44.0",
+    "@vercel/ncc": "^0.44.1",
     "constructs": "^10.0.0",
     "eslint": "^9",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.32.0",
     "jest": "^27",
     "jest-junit": "^17",
-    "projen": "^0.100.2",
+    "projen": "^0.101.11",
     "projen-github-action-typescript": "^0.0.514",
     "ts-jest": "^27",
     "typescript": "^4.9.5"
@@ -82,7 +82,7 @@
     "preset": "ts-jest",
     "globals": {
       "ts-jest": {
-        "tsconfig": "tsconfig.dev.json"
+        "tsconfig": "test/tsconfig.json"
       }
     }
   },
